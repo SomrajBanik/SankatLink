@@ -35,6 +35,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sih.bahubhashini.model.IndianLanguage
+import com.sih.bahubhashini.theme.CardBorder
+import com.sih.bahubhashini.theme.DarkSurface
+import com.sih.bahubhashini.theme.DarkSurfaceElevated
+import com.sih.bahubhashini.theme.EmergencyRed
+import com.sih.bahubhashini.theme.SignalGreen
+import com.sih.bahubhashini.theme.TechCyan
+import com.sih.bahubhashini.theme.TextPrimary
+import com.sih.bahubhashini.theme.TextSecondary
 import com.sih.bahubhashini.ui.theme.CardBorder
 import com.sih.bahubhashini.ui.theme.DarkSurface
 import com.sih.bahubhashini.ui.theme.DarkSurfaceElevated

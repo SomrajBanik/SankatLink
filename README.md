@@ -134,6 +134,9 @@ bahu_bhashini/
         └── java/com/sih/bahubhashini/
             ├── BahuBhashiniApp.kt
             ├── MainActivity.kt
+            ├── audio/
+            │   └── EmergencyAudioController.kt   # Forces 100% max volume & sirens
+            ├── model/
             │
             ├── ai/                              # AI pipeline layer (stubs — ready for ONNX integration)
             │   ├── vad/
@@ -154,8 +157,15 @@ bahu_bhashini/
             ├── model/                            # Data models & offline SOS phrase data
             │   ├── AppMode.kt                   # Voice Note / Walkie-Talkie / Phone Call
             │   ├── AudioMessage.kt              # Text packet payload model
+            │   ├── IndianLanguage.kt            # 10 Indian languages + SOS phrasebook
             │   ├── IndianLanguage.kt            # ✅ 10 Indian languages + SOS phrasebook
             │   └── PeerDevice.kt                # Discovered Wi-Fi Direct & BLE peers
+            ├── theme/
+            │   ├── Color.kt                     # Tactical emergency dark theme palette
+            │   ├── Theme.kt                     # Material 3 dark color scheme
+            │   └── Type.kt                      # Typography scales
+            ├── ui/
+            │   ├── components/
             │
             ├── ui/                              # UI layer (Jetpack Compose)
             │   ├── theme/                       # Material 3 dark tactical theme
@@ -167,13 +177,16 @@ bahu_bhashini/
             │   │   ├── EmergencyVolumeBanner.kt # 100% volume warning & siren tester
             │   │   ├── LanguageSelectorDialog.kt# 10-language selection modal sheet
             │   │   └── WaveformVisualizer.kt    # Live audio pulse animation
+            │   └── screens/
             │   └── screens/                     # Full-screen composables
             │       ├── MainEmergencyScreen.kt   # Coordinator layout & mode tabs
             │       ├── VoiceNoteScreen.kt       # Voice note feed, SOS chips, max volume playback
+            │       ├── WalkieTalkieScreen.kt    # Tactile PTT button & Silero VAD monitor
             │       ├── WalkieTalkieScreen.kt    # Tactile PTT button & VAD status monitor
             │       └── PhoneModeScreen.kt       # Turn-based call with live translated subtitles
             │
             └── viewmodel/
+                └── BahuBhashiniViewModel.kt     # State machine, pipeline simulation & audio control
                 └── BahuBhashiniViewModel.kt     # State machine & audio control orchestration
 ```
 

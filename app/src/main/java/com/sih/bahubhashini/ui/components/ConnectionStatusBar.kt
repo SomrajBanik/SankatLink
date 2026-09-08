@@ -28,6 +28,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sih.bahubhashini.theme.DarkSurfaceVariant
+import com.sih.bahubhashini.theme.SignalGreen
+import com.sih.bahubhashini.theme.TechCyan
+import com.sih.bahubhashini.theme.TextPrimary
+import com.sih.bahubhashini.theme.TextSecondary
 import com.sih.bahubhashini.ui.theme.DarkSurfaceVariant
 import com.sih.bahubhashini.ui.theme.SignalGreen
 import com.sih.bahubhashini.ui.theme.TechCyan
