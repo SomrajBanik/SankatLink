@@ -1,4 +1,4 @@
-# SankatLink (बहुभाषिणी)
+# SankatLink (संकटलिंक)
 # SankatLink (संकटलिंक)
 > **Offline, Low-Bandwidth, Multilingual Emergency Voice Communication System**  
 > *Developed for Smart India Hackathon (SIH) & Disaster Response Scenarios*
