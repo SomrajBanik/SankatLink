@@ -22,9 +22,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.sih.bahubhashini.theme.EmergencyRed
-import com.sih.bahubhashini.theme.SignalGreen
-import com.sih.bahubhashini.theme.TechCyan
+import com.sih.bahubhashini.ui.theme.EmergencyRed
+import com.sih.bahubhashini.ui.theme.SignalGreen
+import com.sih.bahubhashini.ui.theme.TechCyan
 
 @Composable
 fun WaveformVisualizer(

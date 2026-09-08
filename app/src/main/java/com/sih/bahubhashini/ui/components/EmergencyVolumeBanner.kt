@@ -27,11 +27,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sih.bahubhashini.theme.EmergencyRed
-import com.sih.bahubhashini.theme.EmergencyRedContainer
-import com.sih.bahubhashini.theme.OnEmergencyRed
-import com.sih.bahubhashini.theme.TextPrimary
-import com.sih.bahubhashini.theme.TextSecondary
+import com.sih.bahubhashini.ui.theme.EmergencyRed
+import com.sih.bahubhashini.ui.theme.EmergencyRedContainer
+import com.sih.bahubhashini.ui.theme.OnEmergencyRed
+import com.sih.bahubhashini.ui.theme.TextPrimary
+import com.sih.bahubhashini.ui.theme.TextSecondary
 
 @Composable
 fun EmergencyVolumeBanner(

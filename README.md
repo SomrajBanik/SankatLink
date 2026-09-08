@@ -97,6 +97,23 @@ BahuBhashini natively supports the 10 most widely spoken Indian languages (+ Eng
 
 ---
 
+## Implementation Status
+
+> ⚠️ **This is currently a UI prototype / demo.** The AI pipeline stages below are **planned** and have interface stubs in place, but the actual ONNX model inference is not yet implemented.
+
+| Pipeline Stage | Status | Notes |
+|---|---|---|
+| **VAD** (Silero VAD ONNX) | 🔲 Stub only | `ai/vad/VoiceActivityDetector.kt` interface defined |
+| **STT** (IndicConformer CTC) | 🔲 Stub only | `ai/stt/SpeechToTextEngine.kt` interface defined |
+| **Translation** (IndicTrans2) | 🔲 Stub only | `ai/translation/TranslationEngine.kt` interface defined |
+| **TTS** (Sherpa-ONNX VITS) | 🔲 Stub only | `ai/tts/TextToSpeechEngine.kt` interface defined |
+| **Wi-Fi Direct / BLE Mesh** | 🔲 Stub only | `network/MeshNetworkManager.kt` interface defined |
+| **Emergency Volume Override** | ✅ Implemented | `audio/EmergencyAudioController.kt` — real Android AudioManager code |
+| **SOS Phrase Translations** | ✅ Implemented | `model/IndianLanguage.kt` — hardcoded offline phrases for all 10 languages |
+| **UI Screens** | ✅ Implemented | All 3 modes: Emergency Voice Note, Walkie-Talkie, Phone Call |
+
+---
+
 ## Project Structure
 
 ```
@@ -117,30 +134,47 @@ bahu_bhashini/
         └── java/com/sih/bahubhashini/
             ├── BahuBhashiniApp.kt
             ├── MainActivity.kt
-            ├── audio/
-            │   └── EmergencyAudioController.kt   # Forces 100% max volume & sirens
-            ├── model/
+            │
+            ├── ai/                              # AI pipeline layer (stubs — ready for ONNX integration)
+            │   ├── vad/
+            │   │   └── VoiceActivityDetector.kt  # Silero VAD v5 ONNX interface
+            │   ├── stt/
+            │   │   └── SpeechToTextEngine.kt     # IndicConformer CTC (Sherpa-ONNX) interface
+            │   ├── tts/
+            │   │   └── TextToSpeechEngine.kt     # VITS / Piper (Sherpa-ONNX) interface
+            │   └── translation/
+            │       └── TranslationEngine.kt      # IndicTrans2 ONNX interface
+            │
+            ├── network/                          # P2P mesh transport layer (stub)
+            │   └── MeshNetworkManager.kt         # Wi-Fi Direct & BLE Mesh interface
+            │
+            ├── audio/                            # ✅ Real, working audio utilities
+            │   └── EmergencyAudioController.kt  # Forces 100% max volume & sirens
+            │
+            ├── model/                            # Data models & offline SOS phrase data
             │   ├── AppMode.kt                   # Voice Note / Walkie-Talkie / Phone Call
             │   ├── AudioMessage.kt              # Text packet payload model
-            │   ├── IndianLanguage.kt            # 10 Indian languages + SOS phrasebook
+            │   ├── IndianLanguage.kt            # ✅ 10 Indian languages + SOS phrasebook
             │   └── PeerDevice.kt                # Discovered Wi-Fi Direct & BLE peers
-            ├── theme/
-            │   ├── Color.kt                     # Tactical emergency dark theme palette
-            │   ├── Theme.kt                     # Material 3 dark color scheme
-            │   └── Type.kt                      # Typography scales
-            ├── ui/
-            │   ├── components/
+            │
+            ├── ui/                              # UI layer (Jetpack Compose)
+            │   ├── theme/                       # Material 3 dark tactical theme
+            │   │   ├── Color.kt                 # Emergency dark palette
+            │   │   ├── Theme.kt                 # Material 3 dark color scheme
+            │   │   └── Type.kt                  # Typography scales
+            │   ├── components/                  # Reusable composables
             │   │   ├── ConnectionStatusBar.kt   # P2P mesh status & bandwidth stats
             │   │   ├── EmergencyVolumeBanner.kt # 100% volume warning & siren tester
             │   │   ├── LanguageSelectorDialog.kt# 10-language selection modal sheet
             │   │   └── WaveformVisualizer.kt    # Live audio pulse animation
-            │   └── screens/
+            │   └── screens/                     # Full-screen composables
             │       ├── MainEmergencyScreen.kt   # Coordinator layout & mode tabs
             │       ├── VoiceNoteScreen.kt       # Voice note feed, SOS chips, max volume playback
-            │       ├── WalkieTalkieScreen.kt    # Tactile PTT button & Silero VAD monitor
+            │       ├── WalkieTalkieScreen.kt    # Tactile PTT button & VAD status monitor
             │       └── PhoneModeScreen.kt       # Turn-based call with live translated subtitles
+            │
             └── viewmodel/
-                └── BahuBhashiniViewModel.kt     # State machine, pipeline simulation & audio control
+                └── BahuBhashiniViewModel.kt     # State machine & audio control orchestration
 ```
 
 ---

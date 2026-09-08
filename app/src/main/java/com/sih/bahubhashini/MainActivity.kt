@@ -15,8 +15,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.sih.bahubhashini.theme.BahuBhashiniTheme
-import com.sih.bahubhashini.theme.DarkBackground
+import com.sih.bahubhashini.ui.theme.BahuBhashiniTheme
+import com.sih.bahubhashini.ui.theme.DarkBackground
 import com.sih.bahubhashini.ui.screens.MainEmergencyScreen
 import com.sih.bahubhashini.viewmodel.BahuBhashiniViewModel
 
