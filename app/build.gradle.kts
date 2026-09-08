@@ -1,15 +1,15 @@
-plugins {
+﻿plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
 }
 
 android {
-    namespace = "com.sih.bahubhashini"
+    namespace = "com.sih.sankatlink"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.sih.bahubhashini"
+        applicationId = "com.sih.sankatlink"
         minSdk = 26
         targetSdk = 36
         versionCode = 1

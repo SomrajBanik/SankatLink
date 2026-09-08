@@ -1,4 +1,5 @@
-# BahuBhashini (बहुभाषिणी)
+# SankatLink (बहुभाषिणी)
+# SankatLink (संकटलिंक)
 > **Offline, Low-Bandwidth, Multilingual Emergency Voice Communication System**  
 > *Developed for Smart India Hackathon (SIH) & Disaster Response Scenarios*
 
@@ -8,7 +9,7 @@
 
 In the aftermath of floods, earthquakes, cyclones, or collapsed infrastructure, cellular towers and internet service are often destroyed or severed. First responders and stranded civilians speak different regional languages, creating dangerous communication barriers.
 
-**BahuBhashini** solves this through a zero-internet, on-device pipeline that combines:
+**SankatLink** solves this through a zero-internet, on-device pipeline that combines:
 1. **On-Device Voice Activity Detection (VAD)** (Silero VAD ONNX)
 2. **On-Device Speech-to-Text (STT)** (AI4Bharat IndicConformer CTC via Sherpa-ONNX)
 3. **On-Device Machine Translation (MT)** (AI4Bharat IndicTrans2 distilled ONNX)
@@ -23,7 +24,7 @@ In the aftermath of floods, earthquakes, cyclones, or collapsed infrastructure, 
 Sending raw or compressed audio over ad-hoc local mesh connections (BLE/Wi-Fi Direct) is unreliable in disaster zones:
 * **Raw PCM audio (10 sec)**: ~320 KB
 * **Compressed Opus audio (10 sec)**: ~20 KB – 50 KB *(High packet drop rate on BLE/low-signal mesh)*
-* **BahuBhashini Transcribed + Translated Text**: **~60 to 120 BYTES** *(A **>99.5% bandwidth reduction**)*
+* **SankatLink Transcribed + Translated Text**: **~60 to 120 BYTES** *(A **>99.5% bandwidth reduction**)*
 
 ```
 [ Sender Device A ]                                           [ Receiver Device B ]
@@ -42,7 +43,7 @@ Sending raw or compressed audio over ad-hoc local mesh connections (BLE/Wi-Fi Di
                                                                         (Speech Out)
 ```
 
-By transferring only the text payload over the air and allowing the receiving device to locally synthesize the speech via TTS, BahuBhashini achieves instant, resilient communication even over noisy, degraded radio links.
+By transferring only the text payload over the air and allowing the receiving device to locally synthesize the speech via TTS, SankatLink achieves instant, resilient communication even over noisy, degraded radio links.
 
 ---
 
@@ -68,7 +69,7 @@ By transferring only the text payload over the air and allowing the receiving de
 
 ## 10 Supported Indian Languages
 
-BahuBhashini natively supports the 10 most widely spoken Indian languages (+ English):
+SankatLink natively supports the 10 most widely spoken Indian languages (+ English):
 
 | # | Language | Native Script | ISO Code | Script |
 |---|---|---|---|---|
@@ -117,7 +118,7 @@ BahuBhashini natively supports the 10 most widely spoken Indian languages (+ Eng
 ## Project Structure
 
 ```
-bahu_bhashini/
+sankat_link/
 ├── .gitignore                     # Standard Android Git exclusion rules
 ├── build.gradle.kts               # Root build script
 ├── settings.gradle.kts            # Project repositories & modules
@@ -131,8 +132,8 @@ bahu_bhashini/
     └── src/main/
         ├── AndroidManifest.xml    # Permissions (Audio, Volume Override, BLE, Wi-Fi Direct)
         ├── res/                   # Drawables, themes, and string resources
-        └── java/com/sih/bahubhashini/
-            ├── BahuBhashiniApp.kt
+        └── java/com/sih/sankatlink/
+            ├── SankatLinkApp.kt
             ├── MainActivity.kt
             ├── audio/
             │   └── EmergencyAudioController.kt   # Forces 100% max volume & sirens
@@ -186,8 +187,8 @@ bahu_bhashini/
             │       └── PhoneModeScreen.kt       # Turn-based call with live translated subtitles
             │
             └── viewmodel/
-                └── BahuBhashiniViewModel.kt     # State machine, pipeline simulation & audio control
-                └── BahuBhashiniViewModel.kt     # State machine & audio control orchestration
+                └── SankatLinkViewModel.kt     # State machine, pipeline simulation & audio control
+                └── SankatLinkViewModel.kt     # State machine & audio control orchestration
 ```
 
 ---

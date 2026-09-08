@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.BahuBhashini" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.SankatLink" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>
