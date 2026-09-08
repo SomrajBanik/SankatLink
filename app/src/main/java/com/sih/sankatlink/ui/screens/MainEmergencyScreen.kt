@@ -22,13 +22,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.CellTower
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Emergency
-import androidx.compose.material.icons.filled.Mic
-import androidx.compose.material.icons.filled.PhoneInTalk
 import androidx.compose.material.icons.filled.Radio
 import androidx.compose.material.icons.filled.RecordVoiceOver
 import androidx.compose.material.icons.filled.SwapHoriz
-import androidx.compose.material.icons.filled.WifiTethering
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -52,7 +48,6 @@ import androidx.compose.ui.unit.sp
 import com.sih.sankatlink.model.AppMode
 import com.sih.sankatlink.model.IndianLanguage
 import com.sih.sankatlink.model.PeerDevice
-import com.sih.sankatlink.ui.theme.AlertAmber
 import com.sih.sankatlink.ui.components.ConnectionStatusBar
 import com.sih.sankatlink.ui.components.LanguageSelectorDialog
 import com.sih.sankatlink.ui.theme.CardBorder
@@ -60,28 +55,10 @@ import com.sih.sankatlink.ui.theme.DarkBackground
 import com.sih.sankatlink.ui.theme.DarkSurface
 import com.sih.sankatlink.ui.theme.DarkSurfaceElevated
 import com.sih.sankatlink.ui.theme.DarkSurfaceVariant
-import com.sih.sankatlink.ui.theme.EmergencyRed
-import com.sih.sankatlink.ui.theme.EmergencyRedContainer
-import com.sih.sankatlink.ui.theme.OnEmergencyRed
 import com.sih.sankatlink.ui.theme.SignalGreen
 import com.sih.sankatlink.ui.theme.TechCyan
 import com.sih.sankatlink.ui.theme.TextPrimary
 import com.sih.sankatlink.ui.theme.TextSecondary
-import com.sih.sankatlink.ui.theme.AlertAmber
-import com.sih.sankatlink.ui.theme.CardBorder
-import com.sih.sankatlink.ui.theme.DarkBackground
-import com.sih.sankatlink.ui.theme.DarkSurface
-import com.sih.sankatlink.ui.theme.DarkSurfaceElevated
-import com.sih.sankatlink.ui.theme.DarkSurfaceVariant
-import com.sih.sankatlink.ui.theme.EmergencyRed
-import com.sih.sankatlink.ui.theme.EmergencyRedContainer
-import com.sih.sankatlink.ui.theme.OnEmergencyRed
-import com.sih.sankatlink.ui.theme.SignalGreen
-import com.sih.sankatlink.ui.theme.TechCyan
-import com.sih.sankatlink.ui.theme.TextPrimary
-import com.sih.sankatlink.ui.theme.TextSecondary
-import com.sih.sankatlink.ui.components.ConnectionStatusBar
-import com.sih.sankatlink.ui.components.LanguageSelectorDialog
 import com.sih.sankatlink.viewmodel.SankatLinkViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -109,38 +86,30 @@ fun MainEmergencyScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            // Connection Status Bar
             ConnectionStatusBar(
                 connectedPeersCount = uiState.connectedPeers.count { it.isConnected },
                 transportType = "Wi-Fi Direct & BLE",
                 onOpenPeersSheet = { showPeersSheet = true },
-                modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp)
                 modifier = Modifier.padding(horizontal = 14.dp, vertical = 3.dp)
             )
 
-            // Language Selector Bar (Source ⇄ Target)
             LanguageSelectorBar(
                 sourceLang = uiState.sourceLang,
                 targetLang = uiState.targetLang,
                 onSourceClick = { showSourceLangDialog = true },
                 onTargetClick = { showTargetLangDialog = true },
                 onSwap = { viewModel.swapLanguages() },
-                modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp)
                 modifier = Modifier.padding(horizontal = 14.dp, vertical = 3.dp)
             )
 
-            // Segmented Mode Selector
             ModeSelectorBar(
                 currentMode = uiState.activeMode,
                 onModeSelected = { viewModel.setMode(it) },
-                modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp)
                 modifier = Modifier.padding(horizontal = 14.dp, vertical = 3.dp)
             )
 
-            Spacer(modifier = Modifier.height(6.dp))
             Spacer(modifier = Modifier.height(4.dp))
 
-            // Active Mode Screen Content
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -157,7 +126,6 @@ fun MainEmergencyScreen(
                             onTestSiren = { viewModel.testEmergencySiren() },
                             onRecordVoiceNote = {
                                 viewModel.onPttDown()
-                                // simulate 2s recording
                                 viewModel.onPttUp()
                             }
                         )
@@ -196,10 +164,8 @@ fun MainEmergencyScreen(
         }
     }
 
-    // Source Language Selection Dialog
     if (showSourceLangDialog) {
         LanguageSelectorDialog(
-            title = "Select Source Language (You Speak)",
             title = "Select Your Language (Speak)",
             currentSelection = uiState.sourceLang,
             onLanguageSelected = { viewModel.setSourceLanguage(it) },
@@ -207,10 +173,8 @@ fun MainEmergencyScreen(
         )
     }
 
-    // Target Language Selection Dialog
     if (showTargetLangDialog) {
         LanguageSelectorDialog(
-            title = "Select Target Language (Peer Receives)",
             title = "Select Peer Language (Hear)",
             currentSelection = uiState.targetLang,
             onLanguageSelected = { viewModel.setTargetLanguage(it) },
@@ -218,7 +182,6 @@ fun MainEmergencyScreen(
         )
     }
 
-    // Discovered Nearby Peers Bottom Sheet
     if (showPeersSheet) {
         NearbyPeersBottomSheet(
             peers = uiState.connectedPeers,
@@ -236,7 +199,6 @@ private fun EmergencyTopAppBar(
         modifier = Modifier
             .fillMaxWidth()
             .background(DarkSurface)
-            .padding(horizontal = 16.dp, vertical = 12.dp)
             .padding(horizontal = 16.dp, vertical = 10.dp)
     ) {
         Row(
@@ -248,19 +210,14 @@ private fun EmergencyTopAppBar(
                 Box(
                     modifier = Modifier
                         .size(34.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(EmergencyRed),
                         .clip(RoundedCornerShape(10.dp))
                         .background(TechCyan.copy(alpha = 0.15f))
                         .border(1.dp, TechCyan.copy(alpha = 0.35f), RoundedCornerShape(10.dp)),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Emergency,
                         imageVector = Icons.Default.CellTower,
                         contentDescription = "Logo",
-                        tint = OnEmergencyRed,
-                        modifier = Modifier.size(22.dp)
                         tint = TechCyan,
                         modifier = Modifier.size(20.dp)
                     )
@@ -270,19 +227,13 @@ private fun EmergencyTopAppBar(
 
                 Column {
                     Text(
-                        text = "BAHU-BHASHINI",
                         text = "SANKATLINK",
                         color = TextPrimary,
-                        fontSize = 17.sp,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Black,
-                        letterSpacing = 1.sp
                         letterSpacing = 0.8.sp
                     )
                     Text(
-                        text = "10-Lang Offline Mesh Voice • Zero Internet",
-                        color = TechCyan,
-                        fontSize = 10.5.sp,
                         text = "Offline Multilingual Emergency Voice",
                         color = TextSecondary,
                         fontSize = 10.sp,
@@ -291,24 +242,14 @@ private fun EmergencyTopAppBar(
                 }
             }
 
-            IconButton(
-                onClick = onOpenPeers,
             Box(
                 modifier = Modifier
-                    .size(36.dp)
-                    .clip(CircleShape)
                     .clip(RoundedCornerShape(20.dp))
                     .background(DarkSurfaceVariant)
                     .border(1.dp, CardBorder, RoundedCornerShape(20.dp))
                     .clickable { onOpenPeers() }
                     .padding(horizontal = 10.dp, vertical = 5.dp)
             ) {
-                Icon(
-                    imageVector = Icons.Default.WifiTethering,
-                    contentDescription = "Nearby Peers",
-                    tint = TechCyan,
-                    modifier = Modifier.size(20.dp)
-                )
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Box(
                         modifier = Modifier
@@ -344,7 +285,6 @@ private fun LanguageSelectorBar(
             .clip(RoundedCornerShape(12.dp))
             .background(DarkSurfaceElevated)
             .border(1.dp, CardBorder, RoundedCornerShape(12.dp))
-            .padding(8.dp)
             .padding(horizontal = 8.dp, vertical = 6.dp)
     ) {
         Row(
@@ -352,7 +292,6 @@ private fun LanguageSelectorBar(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Source Language Chip
             Box(
                 modifier = Modifier
                     .weight(1f)
@@ -364,9 +303,6 @@ private fun LanguageSelectorBar(
                 Column {
                     Text(
                         text = "YOU SPEAK",
-                        color = TextSecondary,
-                        fontSize = 9.sp,
-                        fontWeight = FontWeight.Bold
                         color = TechCyan,
                         fontSize = 8.5.sp,
                         fontWeight = FontWeight.Bold,
@@ -375,8 +311,6 @@ private fun LanguageSelectorBar(
                     Text(
                         text = "${sourceLang.nativeName} (${sourceLang.displayName})",
                         color = TextPrimary,
-                        fontSize = 12.5.sp,
-                        fontWeight = FontWeight.Bold
                         fontSize = 12.sp,
                         fontWeight = FontWeight.SemiBold,
                         maxLines = 1
@@ -384,27 +318,22 @@ private fun LanguageSelectorBar(
                 }
             }
 
-            // Swap Button
             IconButton(
                 onClick = onSwap,
                 modifier = Modifier
                     .padding(horizontal = 4.dp)
-                    .size(32.dp)
                     .size(28.dp)
                     .clip(CircleShape)
-                    .background(DarkSurface)
                     .background(DarkSurfaceVariant)
             ) {
                 Icon(
                     imageVector = Icons.Default.SwapHoriz,
                     contentDescription = "Swap Languages",
                     tint = TechCyan,
-                    modifier = Modifier.size(18.dp)
                     modifier = Modifier.size(16.dp)
                 )
             }
 
-            // Target Language Chip
             Box(
                 modifier = Modifier
                     .weight(1f)
@@ -416,9 +345,6 @@ private fun LanguageSelectorBar(
                 Column {
                     Text(
                         text = "PEER HEARS",
-                        color = TextSecondary,
-                        fontSize = 9.sp,
-                        fontWeight = FontWeight.Bold
                         color = SignalGreen,
                         fontSize = 8.5.sp,
                         fontWeight = FontWeight.Bold,
@@ -427,8 +353,6 @@ private fun LanguageSelectorBar(
                     Text(
                         text = "${targetLang.nativeName} (${targetLang.displayName})",
                         color = TextPrimary,
-                        fontSize = 12.5.sp,
-                        fontWeight = FontWeight.Bold
                         fontSize = 12.sp,
                         fontWeight = FontWeight.SemiBold,
                         maxLines = 1
@@ -446,8 +370,6 @@ private fun ModeSelectorBar(
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
@@ -464,18 +386,9 @@ private fun ModeSelectorBar(
                 AppMode.PHONE_CALL -> Icons.Default.Call
             }
 
-            val activeColor = when (mode) {
-                AppMode.EMERGENCY_VOICE_NOTE -> EmergencyRed
-                AppMode.WALKIE_TALKIE -> AlertAmber
-                AppMode.PHONE_CALL -> SignalGreen
-            }
-
             Box(
                 modifier = Modifier
                     .weight(1f)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(if (isSelected) activeColor else DarkSurfaceElevated)
-                    .border(1.dp, if (isSelected) activeColor else CardBorder, RoundedCornerShape(10.dp))
                     .clip(RoundedCornerShape(8.dp))
                     .background(if (isSelected) TechCyan.copy(alpha = 0.18f) else Color.Transparent)
                     .border(
@@ -484,11 +397,9 @@ private fun ModeSelectorBar(
                         RoundedCornerShape(8.dp)
                     )
                     .clickable { onModeSelected(mode) }
-                    .padding(vertical = 8.dp),
                     .padding(vertical = 7.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
@@ -496,16 +407,12 @@ private fun ModeSelectorBar(
                     Icon(
                         imageVector = icon,
                         contentDescription = mode.title,
-                        tint = if (isSelected) Color.White else TextSecondary,
-                        modifier = Modifier.size(18.dp)
                         tint = if (isSelected) TechCyan else TextSecondary,
                         modifier = Modifier.size(15.dp)
                     )
-                    Spacer(modifier = Modifier.height(2.dp))
                     Spacer(modifier = Modifier.width(5.dp))
                     Text(
                         text = mode.title,
-                        color = if (isSelected) Color.White else TextPrimary,
                         color = if (isSelected) TextPrimary else TextSecondary,
                         fontSize = 11.sp,
                         fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
@@ -548,7 +455,6 @@ private fun NearbyPeersBottomSheet(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Local Wi-Fi Direct & BLE Mesh (No Internet)",
                         text = "Wi-Fi Direct & BLE Mesh (No Internet)",
                         color = TextSecondary,
                         fontSize = 11.5.sp
@@ -564,7 +470,6 @@ private fun NearbyPeersBottomSheet(
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
             Spacer(modifier = Modifier.height(14.dp))
 
             LazyColumn(
@@ -588,7 +493,6 @@ private fun NearbyPeersBottomSheet(
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Box(
                                     modifier = Modifier
-                                        .size(10.dp)
                                         .size(8.dp)
                                         .clip(CircleShape)
                                         .background(if (peer.isConnected) SignalGreen else Color.Gray)
@@ -598,15 +502,12 @@ private fun NearbyPeersBottomSheet(
                                     Text(
                                         text = peer.name,
                                         color = TextPrimary,
-                                        fontSize = 14.sp,
                                         fontSize = 13.5.sp,
                                         fontWeight = FontWeight.Bold
                                     )
                                     Text(
-                                        text = "${peer.transport} • RSSI: ${peer.rssi} dBm • ~${peer.distanceEstimateMeters.toInt()}m away",
                                         text = "${peer.transport} • RSSI ${peer.rssi} dBm • ~${peer.distanceEstimateMeters.toInt()}m",
                                         color = TextSecondary,
-                                        fontSize = 11.sp
                                         fontSize = 10.5.sp
                                     )
                                 }
@@ -615,14 +516,12 @@ private fun NearbyPeersBottomSheet(
                             Box(
                                 modifier = Modifier
                                     .clip(RoundedCornerShape(6.dp))
-                                    .background(if (peer.isConnected) SignalGreen.copy(alpha = 0.2f) else DarkSurfaceVariant)
                                     .background(if (peer.isConnected) SignalGreen.copy(alpha = 0.15f) else DarkSurfaceVariant)
                                     .padding(horizontal = 8.dp, vertical = 4.dp)
                             ) {
                                 Text(
                                     text = if (peer.isConnected) "Connected" else "Pair",
                                     color = if (peer.isConnected) SignalGreen else TextSecondary,
-                                    fontSize = 11.sp,
                                     fontSize = 10.5.sp,
                                     fontWeight = FontWeight.Bold
                                 )
@@ -636,4 +535,3 @@ private fun NearbyPeersBottomSheet(
         }
     }
 }
-

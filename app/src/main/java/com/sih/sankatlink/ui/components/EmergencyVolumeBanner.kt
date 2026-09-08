@@ -1,4 +1,4 @@
-package com.sih.sankatlink.ui.components
+﻿package com.sih.sankatlink.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -16,8 +15,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.VolumeUp
-import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
@@ -33,13 +30,6 @@ import com.sih.sankatlink.ui.theme.AlertAmber
 import com.sih.sankatlink.ui.theme.CardBorder
 import com.sih.sankatlink.ui.theme.DarkSurfaceElevated
 import com.sih.sankatlink.ui.theme.EmergencyRed
-import com.sih.sankatlink.ui.theme.EmergencyRedContainer
-import com.sih.sankatlink.ui.theme.OnEmergencyRed
-import com.sih.sankatlink.ui.theme.TextPrimary
-import com.sih.sankatlink.ui.theme.TextSecondary
-import com.sih.sankatlink.ui.theme.EmergencyRed
-import com.sih.sankatlink.ui.theme.EmergencyRedContainer
-import com.sih.sankatlink.ui.theme.OnEmergencyRed
 import com.sih.sankatlink.ui.theme.TextPrimary
 import com.sih.sankatlink.ui.theme.TextSecondary
 
@@ -52,9 +42,6 @@ fun EmergencyVolumeBanner(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
-            .background(EmergencyRedContainer.copy(alpha = 0.85f))
-            .border(1.dp, EmergencyRed.copy(alpha = 0.6f), RoundedCornerShape(12.dp))
-            .padding(12.dp)
             .background(DarkSurfaceElevated)
             .border(1.dp, CardBorder, RoundedCornerShape(12.dp))
             .padding(horizontal = 12.dp, vertical = 9.dp)
@@ -70,10 +57,6 @@ fun EmergencyVolumeBanner(
             ) {
                 Box(
                     modifier = Modifier
-                        .size(36.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(EmergencyRed)
-                        .padding(6.dp),
                         .size(30.dp)
                         .clip(CircleShape)
                         .background(EmergencyRed.copy(alpha = 0.15f)),
@@ -82,8 +65,6 @@ fun EmergencyVolumeBanner(
                     Icon(
                         imageVector = Icons.Default.VolumeUp,
                         contentDescription = "Max Volume",
-                        tint = OnEmergencyRed,
-                        modifier = Modifier.size(22.dp)
                         tint = EmergencyRed,
                         modifier = Modifier.size(16.dp)
                     )
@@ -94,13 +75,9 @@ fun EmergencyVolumeBanner(
                 Column {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
-                            text = "MAX VOLUME OVERRIDE (100%)",
-                            color = EmergencyRed,
                             text = "MAX VOLUME OVERRIDE",
                             color = TextPrimary,
                             fontSize = 11.sp,
-                            fontWeight = FontWeight.Black,
-                            letterSpacing = 0.5.sp
                             fontWeight = FontWeight.Bold,
                             letterSpacing = 0.4.sp
                         )
@@ -119,12 +96,7 @@ fun EmergencyVolumeBanner(
                             )
                         }
                     }
-                    Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        text = "Voice notes auto-play at max system volume for emergency survival.",
-                        color = TextPrimary.copy(alpha = 0.9f),
-                        fontSize = 10.5.sp,
-                        lineHeight = 14.sp
                         text = "Incoming voice notes auto-play at max volume for safety",
                         color = TextSecondary,
                         fontSize = 10.sp,
@@ -135,28 +107,21 @@ fun EmergencyVolumeBanner(
 
             Spacer(modifier = Modifier.width(8.dp))
 
-            Button(
             OutlinedButton(
                 onClick = onTestAlert,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = EmergencyRed,
-                    contentColor = OnEmergencyRed
                 colors = ButtonDefaults.outlinedButtonColors(
                     contentColor = AlertAmber
                 ),
                 border = androidx.compose.foundation.BorderStroke(1.dp, AlertAmber.copy(alpha = 0.5f)),
                 shape = RoundedCornerShape(8.dp),
-                contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 10.dp, vertical = 6.dp)
                 contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 10.dp, vertical = 4.dp)
             ) {
                 Text(
                     text = "Test Siren",
                     fontSize = 10.5.sp,
-                    fontWeight = FontWeight.Bold
                     fontWeight = FontWeight.SemiBold
                 )
             }
         }
     }
 }
-
