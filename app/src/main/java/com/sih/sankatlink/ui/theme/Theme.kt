@@ -1,4 +1,4 @@
-﻿package com.sih.sankatlink.ui.theme
+package com.sih.sankatlink.ui.theme
 
 import android.app.Activity
 import androidx.compose.material3.MaterialTheme
@@ -17,6 +17,17 @@ private val DarkColorScheme = darkColorScheme(
     onSecondary = OnAlertAmber,
     secondaryContainer = AlertAmberContainer,
     tertiary = SignalGreen,
+    primary = TechCyan,
+    onPrimary = DarkBackground,
+    primaryContainer = DarkSurfaceElevated,
+    onPrimaryContainer = TextPrimary,
+    secondary = SignalGreen,
+    onSecondary = DarkBackground,
+    secondaryContainer = SignalGreenContainer,
+    tertiary = AlertAmber,
+    error = EmergencyRed,
+    onError = OnEmergencyRed,
+    errorContainer = EmergencyRedContainer,
     background = DarkBackground,
     surface = DarkSurface,
     surfaceVariant = DarkSurfaceVariant,

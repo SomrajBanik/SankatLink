@@ -1,4 +1,4 @@
-﻿package com.sih.sankatlink.ui.components
+package com.sih.sankatlink.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -51,8 +51,11 @@ fun ConnectionStatusBar(
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
             .background(DarkSurfaceVariant)
+            .clip(RoundedCornerShape(10.dp))
+            .background(DarkSurfaceVariant.copy(alpha = 0.8f))
             .clickable { onOpenPeersSheet() }
             .padding(horizontal = 12.dp, vertical = 8.dp)
+            .padding(horizontal = 12.dp, vertical = 7.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -61,9 +64,11 @@ fun ConnectionStatusBar(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 // Pulsing mesh status dot
+                // Status dot
                 Box(
                     modifier = Modifier
                         .size(10.dp)
+                        .size(8.dp)
                         .clip(CircleShape)
                         .background(if (connectedPeersCount > 0) SignalGreen else Color.Gray)
                 )
@@ -73,10 +78,12 @@ fun ConnectionStatusBar(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
                             text = if (connectedPeersCount > 0) "OFFLINE P2P MESH ACTIVE" else "SEARCHING LOCAL PEERS",
+                            text = if (connectedPeersCount > 0) "OFFLINE MESH ACTIVE" else "SEARCHING PEERS",
                             color = TextPrimary,
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
                             letterSpacing = 0.5.sp
+                            letterSpacing = 0.3.sp
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Icon(
@@ -84,13 +91,16 @@ fun ConnectionStatusBar(
                             contentDescription = null,
                             tint = TechCyan,
                             modifier = Modifier.size(14.dp)
+                            modifier = Modifier.size(13.dp)
                         )
                     }
                     Text(
                         text = if (connectedPeersCount > 0)
                             "$connectedPeersCount nearby peer(s) • Low-bandwidth text payload (<100 B)"
+                            "$connectedPeersCount nearby peer(s) • Wi-Fi Direct & BLE"
                         else
                             "No internet needed • Wi-Fi Direct & BLE ready",
+                            "No internet required • Ready to connect",
                         color = TextSecondary,
                         fontSize = 10.sp
                     )
@@ -103,11 +113,15 @@ fun ConnectionStatusBar(
                     .clip(RoundedCornerShape(8.dp))
                     .background(TechCyan.copy(alpha = 0.15f))
                     .padding(horizontal = 8.dp, vertical = 4.dp)
+                    .clip(RoundedCornerShape(6.dp))
+                    .background(TechCyan.copy(alpha = 0.12f))
+                    .padding(horizontal = 8.dp, vertical = 3.dp)
             ) {
                 Text(
                     text = if (connectedPeersCount > 0) "$connectedPeersCount Peers" else "Scan",
                     color = TechCyan,
                     fontSize = 11.sp,
+                    fontSize = 10.5.sp,
                     fontWeight = FontWeight.Bold
                 )
             }

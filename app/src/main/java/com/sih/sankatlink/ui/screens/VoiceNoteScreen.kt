@@ -1,5 +1,6 @@
 ﻿package com.sih.sankatlink.ui.screens
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -44,6 +45,8 @@ import androidx.compose.ui.unit.sp
 import com.sih.sankatlink.model.AudioMessage
 import com.sih.sankatlink.model.EmergencyPhrase
 import com.sih.sankatlink.model.IndianLanguage
+import com.sih.sankatlink.ui.components.EmergencyVolumeBanner
+import com.sih.sankatlink.ui.components.WaveformVisualizer
 import com.sih.sankatlink.ui.theme.AlertAmber
 import com.sih.sankatlink.ui.theme.CardBorder
 import com.sih.sankatlink.ui.theme.DarkSurface
@@ -92,8 +95,39 @@ fun VoiceNoteScreen(
     ) {
         // High Volume Override Warning Banner
         EmergencyVolumeBanner(onTestAlert = onTestSiren)
+        LazyColumn(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            contentPadding = PaddingValues(top = 4.dp, bottom = 8.dp)
+        ) {
+            item {
+                EmergencyVolumeBanner(onTestAlert = onTestSiren)
+            }
 
         Spacer(modifier = Modifier.height(10.dp))
+            item {
+                Column(modifier = Modifier.padding(top = 2.dp)) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "ONE-TOUCH SOS PHRASES",
+                            color = TextSecondary,
+                            fontSize = 10.5.sp,
+                            fontWeight = FontWeight.Bold,
+                            letterSpacing = 0.4.sp
+                        )
+                        Text(
+                            text = "Offline Broadcast",
+                            color = TechCyan,
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
 
         // Quick 1-Tap SOS Phrases Bar
         Text(
@@ -103,8 +137,23 @@ fun VoiceNoteScreen(
             fontWeight = FontWeight.Bold,
             letterSpacing = 0.5.sp
         )
+                    Spacer(modifier = Modifier.height(6.dp))
 
         Spacer(modifier = Modifier.height(6.dp))
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        items(IndianLanguage.EMERGENCY_PHRASES) { phrase ->
+                            QuickSosChip(
+                                phrase = phrase,
+                                language = sourceLang,
+                                onClick = { onSendEmergencyPhrase(phrase) }
+                            )
+                        }
+                    }
+                }
+            }
 
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -116,6 +165,27 @@ fun VoiceNoteScreen(
                     language = sourceLang,
                     onClick = { onSendEmergencyPhrase(phrase) }
                 )
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 4.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "EMERGENCY AUDIO FEED",
+                        color = TextSecondary,
+                        fontSize = 10.5.sp,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 0.4.sp
+                    )
+                    Text(
+                        text = "${messages.size} message(s)",
+                        color = TextSecondary,
+                        fontSize = 10.sp
+                    )
+                }
             }
         }
 
@@ -154,9 +224,13 @@ fun VoiceNoteScreen(
                 .fillMaxWidth()
                 .padding(vertical = 10.dp)
                 .clip(RoundedCornerShape(16.dp))
+                .padding(vertical = 8.dp)
+                .clip(RoundedCornerShape(14.dp))
                 .background(DarkSurfaceElevated)
                 .border(1.dp, CardBorder, RoundedCornerShape(16.dp))
                 .padding(12.dp)
+                .border(1.dp, CardBorder, RoundedCornerShape(14.dp))
+                .padding(horizontal = 14.dp, vertical = 10.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -166,14 +240,17 @@ fun VoiceNoteScreen(
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = "RECORD EMERGENCY VOICE NOTE",
+                        text = "RECORD VOICE NOTE",
                         color = TextPrimary,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
                         text = "VAD -> STT -> Translated text payload (<100 B)",
+                        text = "Transcribes & translates to peer language (<100 B)",
                         color = TechCyan,
                         fontSize = 10.5.sp
+                        fontSize = 10.sp
                     )
                 }
 
@@ -181,6 +258,12 @@ fun VoiceNoteScreen(
                     onClick = onRecordVoiceNote,
                     colors = ButtonDefaults.buttonColors(containerColor = EmergencyRed),
                     shape = RoundedCornerShape(12.dp)
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = TechCyan,
+                        contentColor = Color(0xFF0B111E)
+                    ),
+                    shape = RoundedCornerShape(10.dp),
+                    contentPadding = PaddingValues(horizontal = 14.dp, vertical = 8.dp)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Mic,
@@ -194,6 +277,19 @@ fun VoiceNoteScreen(
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold
                     )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Default.Mic,
+                            contentDescription = "Record",
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(
+                            text = "Record",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
             }
         }
@@ -209,10 +305,13 @@ private fun QuickSosChip(
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(10.dp))
+            .clip(RoundedCornerShape(8.dp))
             .background(DarkSurfaceVariant)
             .border(1.dp, AlertAmber.copy(alpha = 0.5f), RoundedCornerShape(10.dp))
+            .border(1.dp, CardBorder, RoundedCornerShape(8.dp))
             .clickable { onClick() }
             .padding(horizontal = 12.dp, vertical = 8.dp)
+            .padding(horizontal = 10.dp, vertical = 6.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
@@ -220,12 +319,15 @@ private fun QuickSosChip(
                 contentDescription = null,
                 tint = AlertAmber,
                 modifier = Modifier.size(14.dp)
+                modifier = Modifier.size(12.dp)
             )
             Spacer(modifier = Modifier.width(6.dp))
+            Spacer(modifier = Modifier.width(5.dp))
             Text(
                 text = phrase.getText(language),
                 color = TextPrimary,
                 fontSize = 11.5.sp,
+                fontSize = 11.sp,
                 fontWeight = FontWeight.Medium,
                 maxLines = 1
             )
@@ -241,6 +343,7 @@ private fun EmergencyMessageCard(
 ) {
     val timeFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
     val formattedTime = timeFormat.format(Date(message.timestamp))
+    val borderColor = if (message.isEmergency) EmergencyRed.copy(alpha = 0.35f) else CardBorder
 
     val borderColor = if (message.isEmergency) EmergencyRed.copy(alpha = 0.6f) else CardBorder
     val bgColor = if (message.isEmergency) EmergencyRedContainer.copy(alpha = 0.35f) else DarkSurfaceElevated
@@ -251,6 +354,9 @@ private fun EmergencyMessageCard(
             .clip(RoundedCornerShape(14.dp))
             .background(bgColor)
             .border(1.dp, borderColor, RoundedCornerShape(14.dp))
+            .clip(RoundedCornerShape(12.dp))
+            .background(DarkSurfaceElevated)
+            .border(1.dp, borderColor, RoundedCornerShape(12.dp))
             .padding(12.dp)
     ) {
         Column {
@@ -264,6 +370,7 @@ private fun EmergencyMessageCard(
                     Box(
                         modifier = Modifier
                             .size(8.dp)
+                            .size(7.dp)
                             .clip(CircleShape)
                             .background(if (message.isIncoming) SignalGreen else TechCyan)
                     )
@@ -282,6 +389,9 @@ private fun EmergencyMessageCard(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(6.dp))
                                 .background(EmergencyRed)
+                                .clip(RoundedCornerShape(4.dp))
+                                .background(EmergencyRed.copy(alpha = 0.15f))
+                                .border(0.5.dp, EmergencyRed.copy(alpha = 0.4f), RoundedCornerShape(4.dp))
                                 .padding(horizontal = 6.dp, vertical = 2.dp)
                         ) {
                             Text(
@@ -289,6 +399,10 @@ private fun EmergencyMessageCard(
                                 color = OnEmergencyRed,
                                 fontSize = 9.sp,
                                 fontWeight = FontWeight.Black
+                                text = "SOS • MAX VOL",
+                                color = EmergencyRed,
+                                fontSize = 8.5.sp,
+                                fontWeight = FontWeight.Bold
                             )
                         }
                         Spacer(modifier = Modifier.width(6.dp))
@@ -309,20 +423,26 @@ private fun EmergencyMessageCard(
                 text = message.translatedText,
                 color = TextPrimary,
                 fontSize = 14.5.sp,
+                fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold,
                 lineHeight = 20.sp
+                lineHeight = 19.sp
             )
 
             Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(3.dp))
 
             // Original Spoken Text (Subtext with source language)
             Text(
                 text = "Original (${message.sourceLang.nativeName}): ${message.originalText}",
                 color = TextSecondary,
                 fontSize = 11.5.sp
+                fontSize = 11.sp,
+                lineHeight = 15.sp
             )
 
             Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             // Audio Player Bar & Low Bandwidth Metadata
             Row(
@@ -333,27 +453,37 @@ private fun EmergencyMessageCard(
                     .padding(horizontal = 10.dp, vertical = 6.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Row(
                     modifier = Modifier.weight(1f),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     IconButton(
                         onClick = onPlay,
                         modifier = Modifier
                             .size(32.dp)
+                            .size(30.dp)
                             .clip(CircleShape)
                             .background(EmergencyRed)
+                            .background(if (isPlaying) AlertAmber else TechCyan)
                     ) {
                         Icon(
                             imageVector = if (isPlaying) Icons.Default.Stop else Icons.Default.PlayArrow,
                             contentDescription = "Play at Max Volume",
                             tint = OnEmergencyRed,
                             modifier = Modifier.size(18.dp)
+                            contentDescription = if (isPlaying) "Stop" else "Play",
+                            tint = Color(0xFF0B111E),
+                            modifier = Modifier.size(16.dp)
                         )
                     }
 
                     Spacer(modifier = Modifier.width(10.dp))
+                    Spacer(modifier = Modifier.width(8.dp))
 
                     if (isPlaying) {
                         WaveformVisualizer(
@@ -378,6 +508,12 @@ private fun EmergencyMessageCard(
                             )
                         }
                     }
+                    Text(
+                        text = if (isPlaying) "Playing Loudspeaker..." else "${message.audioDurationSec}s voice note",
+                        color = if (isPlaying) AlertAmber else TextSecondary,
+                        fontSize = 10.5.sp,
+                        fontWeight = if (isPlaying) FontWeight.Bold else FontWeight.Normal
+                    )
                 }
 
                 Spacer(modifier = Modifier.width(8.dp))
@@ -388,12 +524,30 @@ private fun EmergencyMessageCard(
                         .clip(RoundedCornerShape(6.dp))
                         .background(TechCyan.copy(alpha = 0.15f))
                         .padding(horizontal = 6.dp, vertical = 3.dp)
+                        .clip(RoundedCornerShape(4.dp))
+                        .background(DarkSurfaceVariant)
+                        .padding(horizontal = 6.dp, vertical = 2.dp)
                 ) {
                     Text(
                         text = "📦 ${message.payloadSizeBytes} B (P2P)",
+                        text = "📦 ${message.payloadSizeBytes} B text",
                         color = TechCyan,
                         fontSize = 10.sp,
                         fontWeight = FontWeight.Bold
+                        fontSize = 9.5.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+            }
+
+            AnimatedVisibility(visible = isPlaying) {
+                Column {
+                    Spacer(modifier = Modifier.height(6.dp))
+                    WaveformVisualizer(
+                        isActive = true,
+                        barColor = if (message.isEmergency) EmergencyRed else SignalGreen,
+                        maxBarHeight = 22.dp,
+                        barCount = 20
                     )
                 }
             }

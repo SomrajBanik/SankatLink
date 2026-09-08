@@ -1,4 +1,4 @@
-﻿package com.sih.sankatlink.ui.components
+package com.sih.sankatlink.ui.components
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
@@ -95,6 +95,7 @@ fun WaveformVisualizer(
                     .height(currentHeight)
                     .clip(RoundedCornerShape(2.dp))
                     .background(if (isActive) barColor else barColor.copy(alpha = 0.3f))
+                    .background(if (isActive) barColor else barColor.copy(alpha = 0.25f))
             )
 
             if (i < barCount - 1) {

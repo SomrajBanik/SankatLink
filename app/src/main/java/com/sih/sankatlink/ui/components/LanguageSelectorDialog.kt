@@ -83,12 +83,15 @@ fun LanguageSelectorDialog(
                         text = title,
                         color = TextPrimary,
                         fontSize = 18.sp,
+                        fontSize = 17.sp,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
                         text = "10 Indian Languages with 100% Offline Models",
+                        text = "10 Indian Languages • Offline On-Device",
                         color = TextSecondary,
                         fontSize = 12.sp
+                        fontSize = 11.5.sp
                     )
                 }
 
@@ -102,6 +105,7 @@ fun LanguageSelectorDialog(
             }
 
             Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(14.dp))
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
@@ -142,25 +146,32 @@ private fun LanguageCard(
             .clip(RoundedCornerShape(12.dp))
             .background(bgColor)
             .border(if (isSelected) 1.5.dp else 1.dp, borderColor, RoundedCornerShape(12.dp))
+            .border(1.dp, borderColor, RoundedCornerShape(12.dp))
             .clickable { onClick() }
             .padding(12.dp)
+            .padding(horizontal = 14.dp, vertical = 10.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Column {
                 Text(
                     text = language.nativeName,
                     color = if (isSelected) TechCyan else TextPrimary,
                     fontSize = 16.sp,
+                    fontSize = 15.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = "${language.displayName} (${language.isoCode.uppercase()})",
+                    text = "${language.displayName} (${language.scriptName})",
                     color = TextSecondary,
                     fontSize = 11.sp
+                    fontSize = 10.5.sp
                 )
             }
 
