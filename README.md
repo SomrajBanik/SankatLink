@@ -104,14 +104,14 @@ SankatLink natively supports the 10 most widely spoken Indian languages (+ Engli
 
 | Pipeline Stage | Status | Notes |
 |---|---|---|
-| **VAD** (Silero VAD ONNX) | 🔲 Stub only | `ai/vad/VoiceActivityDetector.kt` interface defined |
-| **STT** (IndicConformer CTC) | 🔲 Stub only | `ai/stt/SpeechToTextEngine.kt` interface defined |
-| **Translation** (IndicTrans2) | 🔲 Stub only | `ai/translation/TranslationEngine.kt` interface defined |
-| **TTS** (Sherpa-ONNX VITS) | 🔲 Stub only | `ai/tts/TextToSpeechEngine.kt` interface defined |
-| **Wi-Fi Direct / BLE Mesh** | 🔲 Stub only | `network/MeshNetworkManager.kt` interface defined |
-| **Emergency Volume Override** | ✅ Implemented | `audio/EmergencyAudioController.kt` — real Android AudioManager code |
-| **SOS Phrase Translations** | ✅ Implemented | `model/IndianLanguage.kt` — hardcoded offline phrases for all 10 languages |
-| **UI Screens** | ✅ Implemented | All 3 modes: Emergency Voice Note, Walkie-Talkie, Phone Call |
+| **VAD** (Silero VAD ONNX) | Stub only | `ai/vad/VoiceActivityDetector.kt` interface defined |
+| **STT** (IndicConformer CTC) | Stub only | `ai/stt/SpeechToTextEngine.kt` interface defined |
+| **Translation** (IndicTrans2) | Stub only | `ai/translation/TranslationEngine.kt` interface defined |
+| **TTS** (Sherpa-ONNX VITS) | Stub only | `ai/tts/TextToSpeechEngine.kt` interface defined |
+| **Wi-Fi Direct / BLE Mesh** | Stub only | `network/MeshNetworkManager.kt` interface defined |
+| **Emergency Volume Override** | Implemented | `audio/EmergencyAudioController.kt` — real Android AudioManager code |
+| **SOS Phrase Translations** | Implemented | `model/IndianLanguage.kt` — hardcoded offline phrases for all 10 languages |
+| **UI Screens** | Implemented | All 3 modes: Emergency Voice Note, Walkie-Talkie, Phone Call |
 
 ---
 
@@ -152,14 +152,14 @@ sankat_link/
             ├── network/                          # P2P mesh transport layer (stub)
             │   └── MeshNetworkManager.kt         # Wi-Fi Direct & BLE Mesh interface
             │
-            ├── audio/                            # ✅ Real, working audio utilities
+            ├── audio/                            # working audio utilities
             │   └── EmergencyAudioController.kt  # Forces 100% max volume & sirens
             │
             ├── model/                            # Data models & offline SOS phrase data
             │   ├── AppMode.kt                   # Voice Note / Walkie-Talkie / Phone Call
             │   ├── AudioMessage.kt              # Text packet payload model
             │   ├── IndianLanguage.kt            # 10 Indian languages + SOS phrasebook
-            │   ├── IndianLanguage.kt            # ✅ 10 Indian languages + SOS phrasebook
+            │   ├── IndianLanguage.kt            # 10 Indian languages + SOS phrasebook
             │   └── PeerDevice.kt                # Discovered Wi-Fi Direct & BLE peers
             ├── theme/
             │   ├── Color.kt                     # Tactical emergency dark theme palette
